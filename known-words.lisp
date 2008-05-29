@@ -1,5 +1,5 @@
 ;;; -*- Mode: LISP; Syntax: COMMON-LISP; Package: CHUNGA; Base: 10 -*-
-;;; $Header: /usr/local/cvsrep/chunga/known-words.lisp,v 1.2 2008/05/24 21:40:54 edi Exp $
+;;; $Header: /usr/local/cvsrep/chunga/known-words.lisp,v 1.3 2008/05/29 22:21:09 edi Exp $
 
 ;;; Copyright (c) 2006-2008, Dr. Edmund Weitz.  All rights reserved.
 
@@ -144,12 +144,9 @@ is optimized to not call INTERN for these."
   (or (gethash string +string-to-keyword-hash+)
       (make-keyword string destructivep)))
 
-(defun as-capitalized-string (keyword &key destructivep)
+(defun as-capitalized-string (keyword)
   "Kind of the inverse of AS-KEYWORD.  Has essentially the same effect
 as STRING-CAPITALIZE but is optimized for \"known\" keywords like
-:CONTENT-LENGTH or :GET.  Uses NSTRING-CAPITALIZE if DESTRUCTIVEP is
-true. "
+:CONTENT-LENGTH or :GET."
   (or (gethash keyword +keyword-to-string-hash+)
-      (if destructivep
-        (nstring-capitalize keyword)
-        (string-capitalize keyword))))
+      (string-capitalize keyword)))

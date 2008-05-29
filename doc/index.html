@@ -643,12 +643,11 @@ is the default.  "Knows" several HTTP header names and methods and
 is optimized to not call <a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_intern.htm"><code>INTERN</code></a> for these.
 </blockquote>
 
-<p><br>[Function]<br><a class=none name='as-capitalized-string'><b>as-capitalized-string</b> <i>keyword <tt>&amp;key</tt> destructivep</i> =&gt; <i>capitalized-string</i></a>
+<p><br>[Function]<br><a class=none name='as-capitalized-string'><b>as-capitalized-string</b> <i>keyword</i> =&gt; <i>capitalized-string</i></a>
 <blockquote><br>
 Kind of the inverse of <a href="#as-keyword"><code>AS-KEYWORD</code></a>.  Has essentially the same effect
 as <a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_stg_up.htm"><code>STRING-CAPITALIZE</code></a> but is optimized for "known" keywords like
-<code>:CONTENT-LENGTH</code> or <code>:GET</code>.  Uses <code>NSTRING-CAPITALIZE</code> if <code><i>destructivep</i></code> is
-true. 
+<code>:CONTENT-LENGTH</code> or <code>:GET</code>.
 </blockquote>
 
 
@@ -659,7 +658,7 @@ Thanks to Jochen Schmidt's chunking code in <a href="http://www.cliki.net/ACL-CO
 This documentation was prepared with <a href="http://weitz.de/documentation-template/">DOCUMENTATION-TEMPLATE</a>.
 </p>
 <p>
-$Header: /usr/local/cvsrep/chunga/doc/index.html,v 1.32 2008/05/26 08:18:49 edi Exp $
+$Header: /usr/local/cvsrep/chunga/doc/index.html,v 1.33 2008/05/29 22:22:59 edi Exp $
 <p><a href="http://weitz.de/index.html">BACK TO MY HOMEPAGE</a>
 
 </body>
