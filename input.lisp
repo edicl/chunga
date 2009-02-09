@@ -54,8 +54,10 @@ CHUNKED-INPUT-STREAM."
                    chunk-extensions nil
                    chunk-trailers nil))
             (t (when (< input-index input-limit)
-                 (error "Not all chunks from ~S have been read completely."
-                        stream))))))
+                 (error 'parameter-error
+                        :stream stream
+                        :format-control "Not all chunks from ~S have been read completely."
+                        :format-arguments (list stream)))))))
   (setf (slot-value stream 'input-chunking-p) new-value))
 
 (defmethod stream-clear-input ((stream chunked-input-stream))
@@ -96,7 +98,10 @@ character is seen.  Signals INPUT-CHUNKING-BODY-CORRUPTED."
                "Reads chunk extensions \(if there are any) and stores
 them into the corresponding slot of the stream."
                (when-let (extensions (read-name-value-pairs inner-stream))
-                 (warn "Adding uninterpreted extensions to stream ~S." stream)
+                 (warn 'chunga-warning
+                       :stream stream
+                       :format-control "Adding uninterpreted extensions to stream ~S."
+                       :format-arguments (list stream))
                  (setf (slot-value stream 'chunk-extensions)
                        (append (chunked-input-stream-extensions stream) extensions)))
                (assert-crlf inner-stream))
