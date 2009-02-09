@@ -110,40 +110,16 @@ flexi streams if you need a character stream."
            (close real-stream :abort abort))
           (t nil))))
 
-(define-condition input-chunking-unexpected-end-of-file (stream-error)
-  ()
-  (:documentation "A condition of this type is signaled if we
-reach an unexpected EOF on a chunked stream with input chunking
-enabled.  This is a subtype of STREAM-ERROR, so
-STREAM-ERROR-STREAM can be used to access the offending
-stream."))
-
-(define-condition input-chunking-body-corrupted (stream-error)
-  ((last-char :initarg :last-char
-              :documentation "The \(unexpected) character which was read.")
-   (expected-chars :initarg :expected-chars
-                   :documentation "The characters which were
-expected.  A list of characters or one single character."))
-  (:report (lambda (condition stream)
-             (with-slots (last-char expected-chars)
-                 condition
-               (format stream "Chunked stream ~S seems to be corrupted.
-Read character ~S, but expected ~:[a member of ~S~;~S~]."
-                       (stream-error-stream condition)
-                       last-char (atom expected-chars) expected-chars))))
-  (:documentation "A condition of this type is signaled if an
-unexpected character \(octet) is read while reading from a
-chunked stream with input chunking enabled. This is a subtype of
-STREAM-ERROR, so STREAM-ERROR-STREAM can be used to access the
-offending stream."))
-
 (defun make-chunked-stream (stream)
   "Creates and returns a chunked stream \(a stream of type
 CHUNKED-STREAM) which wraps STREAM.  STREAM must be an open
 binary stream."
   (unless (and (streamp stream)
                (open-stream-p stream))
-    (error "~S should have been an open stream." stream))
+    (error 'parameter-error
+           :stream stream
+           :format-control "~S should have been an open stream."
+           :format-arguments (list stream)))
   (make-instance ;; actual type depends on STREAM
                  (cond ((and (input-stream-p stream)
                              (output-stream-p stream))

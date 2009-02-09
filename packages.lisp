@@ -39,6 +39,8 @@
            :assert-char
            :as-keyword
            :as-capitalized-string
+           :chunga-error
+           :chunga-warning
            :chunked-input-stream
            :chunked-input-stream-extensions
            :chunked-input-stream-trailers
@@ -58,6 +60,7 @@
            :read-name-value-pairs
            :read-token
            :skip-whitespace
+           :syntax-error
            :trim-whitespace
            :with-character-stream-semantics))
            

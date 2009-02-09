@@ -72,6 +72,11 @@ license</a> so you can basically do with it whatever you want.
         </ol>
       <li><a href="#conditions">Conditions</a>
         <ol>
+          <li><a href="#chunga-condition"><code>chunga-condition</code></a>
+          <li><a href="#chunga-error"><code>chunga-error</code></a>
+          <li><a href="#chunga-warning"><code>chunga-warning</code></a>
+          <li><a href="#syntax-error"><code>syntax-error</code></a>
+          <li><a href="#parameter-error"><code>parameter-error</code></a>
           <li><a href="#input-chunking-body-corrupted"><code>input-chunking-body-corrupted</code></a>
           <li><a href="#input-chunking-unexpected-end-of-file"><code>input-chunking-unexpected-end-of-file</code></a>
         </ol>
@@ -342,8 +347,68 @@ by <a href="#read-http-headers"><code>READ-HTTP-HEADERS</code></a>.
 
 <h4><a name="conditions" class=none>Conditions</a></h4>
 
-Here are two conditions which might be signaled if something bad
-happens while reading from a chunked stream:
+Here are conditions which might be signalled if something bad happens
+with a chunked stream.
+
+<!-- Entry for CHUNGA-CONDITION -->
+
+<p><br>[Condition]
+<br><a class=none name="chunga-condition"><b>chunga-condition</b></a>
+
+<blockquote><br>
+All conditions signalled by Chunga are of this type.  This is a subtype of <a href="http://www.lispworks.com/documentation/HyperSpec/Body/e_cnd.htm"><code>CONDITION</code></a>.
+</blockquote>
+
+<!-- End of entry for CHUNGA-CONDITION -->
+
+<!-- Entry for CHUNGA-ERROR -->
+
+<p><br>[Error]
+<br><a class=none name="chunga-error"><b>chunga-error</b></a>
+
+<blockquote><br>
+All errors signalled by Chunga are of this type.  This is a subtype of <a href="#chunga-condition"><code>CHUNGA-CONDITION</code></a> and of
+<a href="http://www.lispworks.com/documentation/HyperSpec/Body/e_stm_er.htm"><code>STREAM-ERROR</code></a>,
+so <a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_stm_er.htm"><code>STREAM-ERROR-STREAM</code></a>
+can be used to access the offending stream.
+</blockquote>
+
+<!-- End of entry for CHUNGA-ERROR -->
+
+<!-- Entry for CHUNGA-WARNING -->
+
+<p><br>[Warning]
+<br><a class=none name="chunga-warning"><b>chunga-warning</b></a>
+
+<blockquote><br>
+All warnings signalled by Chunga are of this type.  This is a subtype of <a href="#chunga-condition"><code>CHUNGA-CONDITION</code></a> and of <a href="http://www.lispworks.com/documentation/HyperSpec/Body/e_warnin.htm"><code>WARNING</code></a>.
+</blockquote>
+
+<!-- End of entry for CHUNGA-WARNING -->
+
+<!-- Entry for SYNTAX-ERROR -->
+
+<p><br>[Error]
+<br><a class=none name="syntax-error"><b>syntax-error</b></a>
+
+<blockquote><br> An error of this type is signalled if Chunga
+encounters wrong or unknown syntax when reading data.  This is a
+subtype of <a href="#chunga-error"><code>CHUNGA-ERROR</code></a>.
+</blockquote>
+
+<!-- End of entry for SYNTAX-ERROR -->
+
+<!-- Entry for PARAMETER-ERROR -->
+
+<p><br>[Error]
+<br><a class=none name="parameter-error"><b>parameter-error</b></a>
+
+<blockquote><br> An error of this type is signalled if a function was
+called with inconsistent or illegal parameters.  This is a subtype
+of <a href="#chunga-error"><code>CHUNGA-ERROR</code></a>.
+</blockquote>
+
+<!-- End of entry for PARAMETER-ERROR -->
 
 <!-- Entry for INPUT-CHUNKING-BODY-CORRUPTED -->
 
@@ -353,11 +418,7 @@ happens while reading from a chunked stream:
 A condition of this type is signaled if an
 unexpected character (octet) is read while reading from a
 <a href="#stream">chunked stream</a> with input chunking enabled. This is a subtype of
-<a
-href="http://www.lispworks.com/documentation/HyperSpec/Body/e_stm_er.htm"><code>STREAM-ERROR</code></a>,
-so <a
-href="http://www.lispworks.com/documentation/HyperSpec/Body/f_stm_er.htm"><code>STREAM-ERROR-STREAM</code></a>
-can be used to access the offending stream.
+<a href="#chunga-error"><code>CHUNGA-ERROR</code></a>.
 
 </blockquote>
 
@@ -372,11 +433,7 @@ can be used to access the offending stream.
 A condition of this type is signaled if we
 reach an unexpected EOF on a <a href="#stream">chunked stream</a> with input chunking
 enabled.  This is a subtype of
-<a
-href="http://www.lispworks.com/documentation/HyperSpec/Body/e_stm_er.htm"><code>STREAM-ERROR</code></a>,
-so <a
-href="http://www.lispworks.com/documentation/HyperSpec/Body/f_stm_er.htm"><code>STREAM-ERROR-STREAM</code></a>
-can be used to access the offending stream.
+<a href="#chunga-error"><code>CHUNGA-ERROR</code></a>.
 
 </blockquote>
 

@@ -29,17 +29,23 @@
 
 (in-package :chunga)
 
-(defun signal-unexpected-chars (last-char expected-chars)
+(defun signal-unexpected-chars (stream last-char expected-chars)
   "Signals an error that LAST-CHAR was read although one of
-EXPECTED-CHARS was expected.  \(Note that EXPECTED-CHARS,
-despites its name, can also be a single character instead of a
-list).  Uses *CURRENT-ERROR-MESSAGE* if it's not NIL, or calls
-*CURRENT-ERROR-FUNCTION* otherwise."
+EXPECTED-CHARS was expected.  \(Note that EXPECTED-CHARS, despites its
+name, can also be a single character instead of a list).  Calls
+*CURRENT-ERROR-FUNCTION* if it's not NIL, or uses
+*CURRENT-ERROR-MESSAGE* otherwise."
   (cond (*current-error-function*
          (funcall *current-error-function* last-char expected-chars))
-        (*current-error-message*
-         (error "~@[~A~%~]~:[End of file~;Read character ~:*~S~], but expected ~:[a member of ~S~;~S~]."
-                *current-error-message* last-char (atom expected-chars) expected-chars))))
+        (t
+         (error 'syntax-error
+                :stream stream
+                :format-control "~@[~A~%~]~:[End of file~;Read character ~:*~S~], ~
+but expected ~:[a member of ~S~;~S~]."
+                :format-arguments (list *current-error-message*
+                                        last-char
+                                        (atom expected-chars)
+                                        expected-chars)))))
 
 (defun charp (char)
   "Returns true if the Lisp character CHAR is a CHAR according to RFC 2616."
@@ -73,7 +79,7 @@ according to RFC 2616."
 character EXPECTED-CHAR.  Signals an error otherwise."
   (let ((char (read-char* stream)))
     (unless (and char (char= char expected-char))
-      (signal-unexpected-chars char expected-char))
+      (signal-unexpected-chars stream char expected-char))
     char))
 
 (defun assert-crlf (stream)
@@ -170,7 +176,10 @@ logs the header lines to LOG-STREAM if it is not NIL."
 Returns NIL if LINE consists solely of whitespace."
                (unless (zerop (length (trim-whitespace line)))
                  (let ((colon-pos (or (position #\: line :test #'char=)
-                                      (error "Couldn't find colon in header line ~S." line))))
+                                      (error 'syntax-error
+                                             :stream stream
+                                             :format-control "Couldn't find colon in header line ~S."
+                                             :format-arguments (list line)))))
                    (cons (as-keyword (subseq line 0 colon-pos))
                          (trim-whitespace (subseq line (1+ colon-pos)))))))
              (add-header (pair)
@@ -231,7 +240,7 @@ characters."
                (#\Return (assert-char stream #\Linefeed)
                          (let ((char (read-char* stream)))
                            (unless (whitespacep char)
-                             (signal-unexpected-chars char '(#\Space #\Tab)))))
+                             (signal-unexpected-chars stream char '(#\Space #\Tab)))))
                (otherwise (write-char char out))))))
 
 (defun read-cookie-value (stream &key name separators)

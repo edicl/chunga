@@ -35,6 +35,7 @@
                (:file "specials")
                (:file "util")
                (:file "known-words")
+               (:file "conditions")
                (:file "read")
                (:file "streams")
                (:file "input")
