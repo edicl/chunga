@@ -1,7 +1,7 @@
 ;;; -*- Mode: LISP; Syntax: COMMON-LISP; Package: CHUNGA; Base: 10 -*-
 ;;; $Header: /usr/local/cvsrep/chunga/known-words.lisp,v 1.3 2008/05/29 22:21:09 edi Exp $
 
-;;; Copyright (c) 2006-2008, Dr. Edmund Weitz.  All rights reserved.
+;;; Copyright (c) 2006-2009, Dr. Edmund Weitz.  All rights reserved.
 
 ;;; Redistribution and use in source and binary forms, with or without
 ;;; modification, are permitted provided that the following conditions
