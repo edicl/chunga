@@ -29,15 +29,15 @@
 
 (in-package :chunga)
 
-(defmethod chunked-input-stream-extensions (object)
+(defmethod chunked-input-stream-extensions ((object t))
   "The default method which always returns the empty list."
   nil)
 
-(defmethod chunked-input-stream-trailers (object)
+(defmethod chunked-input-stream-trailers ((object t))
   "The default method which always returns the empty list."
   nil)
 
-(defmethod chunked-stream-input-chunking-p (object)
+(defmethod chunked-stream-input-chunking-p ((object t))
   "The default method for all objects which are not of type
 CHUNKED-INPUT-STREAM."
   nil)

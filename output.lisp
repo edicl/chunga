@@ -29,7 +29,7 @@
 
 (in-package :chunga)
 
-(defmethod chunked-stream-output-chunking-p (object)
+(defmethod chunked-stream-output-chunking-p ((object t))
   "The default method for all objects which are not of type
 CHUNKED-OUTPUT-STREAM."
   nil)
