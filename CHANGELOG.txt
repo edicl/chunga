@@ -1,3 +1,9 @@
+Version 1.0.0
+2009-02-10
+Switched to binary streams underneath and got rid of FLEXI-STREAMS dependency
+Exported (an improved version of) AS-KEYWORD
+Added WITH-CHARACTER-STREAM-SEMANTICS
+
 Version 0.4.3
 2008-05-23
 Cleanup, reduce some consing
