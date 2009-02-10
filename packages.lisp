@@ -54,6 +54,7 @@
            :input-chunking-unexpected-end-of-file
            :make-chunked-stream
            :read-http-headers
+           :peek-char*
            :read-char*
            :read-line*
            :read-name-value-pair

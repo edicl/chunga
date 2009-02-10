@@ -91,6 +91,7 @@ license</a> so you can basically do with it whatever you want.
           <li><a href="#assert-char"><code>assert-char</code></a>
           <li><a href="#skip-whitespace"><code>skip-whitespace</code></a>
           <li><a href="#read-char*"><code>read-char*</code></a>
+          <li><a href="#peek-char*"><code>peek-char*</code></a>
           <li><a href="#trim-whitespace"><code>trim-whitespace</code></a>
           <li><a href="#*current-error-message*"><code>*current-error-message*</code></a>
           <li><a href="#*accept-bogus-eols*"><code>*accept-bogus-eols*</code></a>
@@ -638,6 +639,25 @@ See <a href="#with-character-stream-semantics"><code>WITH-CHARACTER-STREAM-SEMAN
 </blockquote>
 
 <!-- End of entry for READ-CHAR* -->
+
+
+<!-- Entry for PEEK-CHAR* -->
+
+<p><br>[Function]<br><a class=none name='peek-char*'><b>peek-char*</b> <i>stream <tt>&amp;optional</tt> eof-error-p eof-value</i>  =&gt; <i>boolean</i></a>
+<blockquote><br>
+
+Returns a true value if a character can be read from the binary
+stream <code><i>stream</i></code>.  If <code><i>eof-error-p</i></code>
+has a true value, an error is signalled if no character remains to be
+read.  <code><i>eof-value</i></code> specifies the value to return
+if <code><i>eof-error-p</i></code> is false and the end of the file
+has been reached.
+<p>
+See <a href="#with-character-stream-semantics"><code>WITH-CHARACTER-STREAM-SEMANTICS</code></a>.
+
+</blockquote>
+
+<!-- End of entry for PEEK-CHAR* -->
 
 
 <!-- Entry for TRIM-WHITESPACE -->
