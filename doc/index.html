@@ -89,9 +89,7 @@ license</a> so you can basically do with it whatever you want.
           <li><a href="#read-name-value-pair"><code>read-name-value-pair</code></a>
           <li><a href="#read-name-value-pairs"><code>read-name-value-pairs</code></a>
           <li><a href="#assert-char"><code>assert-char</code></a>
-          <li><a href="#skip-whitespace"><code>skip-whitespace</code></a>
           <li><a href="#read-char*"><code>read-char*</code></a>
-          <li><a href="#trim-whitespace"><code>trim-whitespace</code></a>
           <li><a href="#*current-error-message*"><code>*current-error-message*</code></a>
           <li><a href="#*accept-bogus-eols*"><code>*accept-bogus-eols*</code></a>
           <li><a href="#*treat-semicolon-as-continuation*"><code>*treat-semicolon-as-continuation*</code></a>
@@ -607,25 +605,6 @@ See <a href="#with-character-stream-semantics"><code>WITH-CHARACTER-STREAM-SEMAN
 <!-- End of entry for ASSERT-CHAR -->
 
 
-<!-- Entry for SKIP-WHITESPACE -->
-
-<p><br>[Function]<br><a class=none name='skip-whitespace'><b>skip-whitespace</b> <i>stream</i> =&gt; <i>char-or-nil</i></a>
-<blockquote><br>
-
-Consume characters from the binary stream <code><i>stream</i></code> until an <a
-href="http://www.lispworks.com/documentation/HyperSpec/Body/e_end_of.htm"><code>END-OF-FILE</code></a> is
-encountered or a non-whitespace (according to <a href="http://www.rfc.net/rfc2616.html">RFC 2616</a>)
-characters is seen.  This character is returned (or <code>NIL</code> in case
-of <a
-href="http://www.lispworks.com/documentation/HyperSpec/Body/e_end_of.htm"><code>END-OF-FILE</code></a>).
-<p>
-See <a href="#with-character-stream-semantics"><code>WITH-CHARACTER-STREAM-SEMANTICS</code></a>.
-
-</blockquote>
-
-<!-- End of entry for SKIP-WHITESPACE -->
-
-
 <!-- Entry for READ-CHAR* -->
 
 <p><br>[Function]<br><a class=none name='read-char*'><b>read-char*</b> <i>stream</i> =&gt; <i>char</i></a>
@@ -638,19 +617,6 @@ See <a href="#with-character-stream-semantics"><code>WITH-CHARACTER-STREAM-SEMAN
 </blockquote>
 
 <!-- End of entry for READ-CHAR* -->
-
-
-<!-- Entry for TRIM-WHITESPACE -->
-
-<p><br>[Function]<br><a class=none name='trim-whitespace'><b>trim-whitespace</b> <i>string</i> =&gt; <i>string'</i></a>
-<blockquote><br>
-
-Returns a version of the string <code><i>string</i></code> where spaces and tab
-characters are trimmed from the start and the end.
-
-</blockquote>
-
-<!-- End of entry for TRIM-WHITESPACE -->
 
 
 <!-- Entry for *CURRENT-ERROR-MESSAGE* -->

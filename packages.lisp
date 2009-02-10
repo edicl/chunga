@@ -59,8 +59,6 @@
            :read-name-value-pair
            :read-name-value-pairs
            :read-token
-           :skip-whitespace
            :syntax-error
-           :trim-whitespace
            :with-character-stream-semantics))
            
