@@ -1,5 +1,5 @@
 Version 1.0.0
-2009-02-10
+2009-02-19
 Switched to binary streams underneath and got rid of FLEXI-STREAMS dependency
 Added conditions
 Exported (an improved version of) AS-KEYWORD
