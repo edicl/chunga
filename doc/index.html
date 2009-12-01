@@ -85,6 +85,7 @@ license</a> so you can basically do with it whatever you want.
           <li><a href="#with-character-stream-semantics"><code>with-character-stream-semantics</code></a>
           <li><a href="#read-line*"><code>read-line*</code></a>
           <li><a href="#read-http-headers"><code>read-http-headers</code></a>
+          <li><a href="#token-char-p"><code>token-char-p</code></a>
           <li><a href="#read-token"><code>read-token</code></a>
           <li><a href="#read-name-value-pair"><code>read-name-value-pair</code></a>
           <li><a href="#read-name-value-pairs"><code>read-name-value-pairs</code></a>
@@ -542,6 +543,19 @@ See <a href="#with-character-stream-semantics"><code>WITH-CHARACTER-STREAM-SEMAN
 
 <!-- End of entry for READ-TOKEN -->
 
+<!-- Entry for TOKEN-CHAR-P -->
+
+<p><br>[Function]<br><a class=none name='token-char-p'><b>token-char-p</b> <i>char</i> =&gt; <i>generalized-boolean</i></a>
+<blockquote><br>
+
+Returns a true value if the Lisp character CHAR is a token constituent
+according to 
+<a href="http://www.rfc.net/rfc2616.html">RFC 2616</a>.
+
+</blockquote>
+
+<!-- End of entry for TOKEN-CHAR-P -->
+
 <!-- Entry for READ-NAME-VALUE-PAIR -->
 
 <p><br>[Function]<br><a class=none name='read-name-value-pair'><b>read-name-value-pair</b> <i>stream <tt>&amp;key</tt> value-required-p cookie-syntax</i> =&gt; <i>pair</i></a>
@@ -662,10 +676,10 @@ See <a href="#with-character-stream-semantics"><code>WITH-CHARACTER-STREAM-SEMAN
 
 <!-- Entry for TRIM-WHITESPACE -->
 
-<p><br>[Function]<br><a class=none name='trim-whitespace'><b>trim-whitespace</b> <i>string</i> =&gt; <i>string'</i></a>
+<p><br>[Function]<br><a class=none name='trim-whitespace'><b>trim-whitespace</b> <i>string <tt>&amp;key</tt> start end</i> =&gt; <i>string'</i></a>
 <blockquote><br>
 
-Returns a version of the string <code><i>string</i></code> where spaces and tab
+Returns a version of the string <code><i>string</i></code> (between <code><i>start</i></code> and <code><i>end</i></code>) where spaces and tab
 characters are trimmed from the start and the end.
 
 </blockquote>

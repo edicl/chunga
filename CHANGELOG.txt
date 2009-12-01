@@ -1,3 +1,7 @@
+Exported TOKEN-CHAR-P
+Allowed START and END keyword arguments for TRIM-WHITESPACE
+Simplified cookie value parsing
+
 Version 1.0.0
 2009-02-19
 Switched to binary streams underneath and got rid of FLEXI-STREAMS dependency

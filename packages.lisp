@@ -62,6 +62,7 @@
            :read-token
            :skip-whitespace
            :syntax-error
+           :token-char-p
            :trim-whitespace
            :with-character-stream-semantics))
            

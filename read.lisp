@@ -120,10 +120,10 @@ Additionally logs this string to LOG-STREAM if it is not NIL."
       (finish-output log-stream))
     result))
 
-(defun trim-whitespace (string)
-  "Returns a version of the string STRING where spaces and tab
-characters are trimmed from the start and the end.  Might return
-STRING."
+(defun trim-whitespace (string &key (start 0) (end (length string)))
+  "Returns a version of the string STRING \(between START and END)
+where spaces and tab characters are trimmed from the start and the
+end.  Might return STRING."
   ;; optimized version to replace STRING-TRIM, suggested by Jason Kantz
   (declare (optimize
             speed
@@ -133,18 +133,18 @@ STRING."
             (compilation-speed 0)
             #+:lispworks (hcl:fixnum-safety 0)))
   (declare (string string))
-  (let* ((length (length string))
-         (start (loop for i of-type fixnum from 0 below length
-                      while (or (char= #\space (char string i))
-                                (char= #\tab (char string i)))
-                      finally (return i)))
-         (end (loop for i of-type fixnum downfrom (1- length) to 0
-                    while (or (char= #\space (char string i))
-                              (char= #\tab (char string i)))
-                    finally (return (1+ i)))))
-    (declare (fixnum start end))
-    (cond ((and (zerop start) (= end length)) string)
-          (t (subseq string start end)))))
+  (let* ((start% (loop for i of-type fixnum from start below end
+                       while (or (char= #\space (char string i))
+                                 (char= #\tab (char string i)))
+                       finally (return i)))
+         (end% (loop for i of-type fixnum downfrom (1- end) to start
+                     while (or (char= #\space (char string i))
+                               (char= #\tab (char string i)))
+                     finally (return (1+ i)))))
+    (declare (fixnum start% end%))
+    (cond ((and (zerop start%) (= end% (length string))) string)
+          ((> start% end%) "")
+          (t (subseq string start% end%)))))
 
 (defun read-http-headers (stream &optional log-stream)
   "Reads HTTP header lines from STREAM \(except for the initial
@@ -243,24 +243,14 @@ characters."
                              (signal-unexpected-chars stream char '(#\Space #\Tab)))))
                (otherwise (write-char char out))))))
 
-(defun read-cookie-value (stream &key name separators)
+(defun read-cookie-value (stream &key (separators ";"))
   "Reads a cookie parameter value from STREAM which is returned as a
-string.  Simply reads until a comma or a semicolon is seen \(or an
-element of SEPARATORS)."
-  (when (eql #\, (peek-char* stream nil))
-    (return-from read-cookie-value ""))
+string.  Simply reads until a semicolon is seen \(or an element of
+SEPARATORS)."
   (trim-whitespace
    (with-output-to-string (out)
-     ;; special case for the `Expires' parameter - maybe skip the first comma
-     (loop with separators% = (cond (separators)
-                                    ((equalp name "Expires") ";")
-                                    (t ",;"))
-           for char = (peek-char* stream nil)
-           until (or (null char) (find char separators% :test #'char=))
-           when (and (null separators)
-                     (or (char= char #\,)
-                         (digit-char-p char)))
-           do (setq separators% '(#\, #\;))
+     (loop for char = (peek-char* stream nil)
+           until (or (null char) (find char separators :test #'char=))
            do (write-char (read-char* stream) out)))))
 
 (defun read-name-value-pair (stream &key (value-required-p t) cookie-syntax)
@@ -272,7 +262,7 @@ value are optional.  If COOKIE-SYNTAX is true, uses READ-COOKIE-VALUE
 internally."
   (skip-whitespace stream)
   (let ((name (if cookie-syntax
-                (read-cookie-value stream :separators "=,")
+                (read-cookie-value stream :separators "=")
                 (read-token stream))))
     (skip-whitespace stream)
     (cons name
@@ -280,7 +270,7 @@ internally."
                     (eql (peek-char* stream nil) #\=))
             (assert-char stream #\=)
             (skip-whitespace stream)
-            (cond (cookie-syntax (read-cookie-value stream :name name))
+            (cond (cookie-syntax (read-cookie-value stream))
                   ((char= (peek-char* stream) #\") (read-quoted-string stream))
                   (t (read-token stream)))))))
 
