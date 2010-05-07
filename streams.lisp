@@ -79,7 +79,7 @@ CHUNKED-STREAM."))
 currently enabled.")
    (output-buffer :initform (make-array +output-buffer-size+ :element-type '(unsigned-byte 8))
                   :accessor output-buffer
-                  :documentation "A vector used to temporary
+                  :documentation "A vector used to temporarily
 store data which will output in one chunk.")
    (output-index :initform 0
                  :accessor output-index
