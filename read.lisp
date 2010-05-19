@@ -246,12 +246,16 @@ characters."
 (defun read-cookie-value (stream &key (separators ";"))
   "Reads a cookie parameter value from STREAM which is returned as a
 string.  Simply reads until a semicolon is seen \(or an element of
-SEPARATORS)."
-  (trim-whitespace
-   (with-output-to-string (out)
-     (loop for char = (peek-char* stream nil)
-           until (or (null char) (find char separators :test #'char=))
-           do (write-char (read-char* stream) out)))))
+SEPARATORS).  Also reads quoted strings if the first non-whitespace
+character is a quotation mark \(as in RFC 2109) at
+http://www.w3.org/Protocols/rfc2109/rfc2109"
+  (if (char= #\" (peek-char* stream))
+      (read-quoted-string stream)
+      (trim-whitespace
+       (with-output-to-string (out)
+         (loop for char = (peek-char* stream nil)
+               until (or (null char) (find char separators :test #'char=))
+               do (write-char (read-char* stream) out))))))
 
 (defun read-name-value-pair (stream &key (value-required-p t) cookie-syntax)
   "Reads a typical \(in RFC 2616) name/value or attribute/value
