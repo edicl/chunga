@@ -1,7 +1,7 @@
 ;;; -*- Mode: LISP; Syntax: COMMON-LISP; Package: CHUNGA; Base: 10 -*-
 ;;; $Header: /usr/local/cvsrep/chunga/read.lisp,v 1.22 2008/05/26 08:18:00 edi Exp $
 
-;;; Copyright (c) 2006-2009, Dr. Edmund Weitz.  All rights reserved.
+;;; Copyright (c) 2006-2010, Dr. Edmund Weitz.  All rights reserved.
 
 ;;; Redistribution and use in source and binary forms, with or without
 ;;; modification, are permitted provided that the following conditions
@@ -247,8 +247,7 @@ characters."
   "Reads a cookie parameter value from STREAM which is returned as a
 string.  Simply reads until a semicolon is seen \(or an element of
 SEPARATORS).  Also reads quoted strings if the first non-whitespace
-character is a quotation mark \(as in RFC 2109) at
-http://www.w3.org/Protocols/rfc2109/rfc2109"
+character is a quotation mark \(as in RFC 2109)."
   (if (char= #\" (peek-char* stream))
       (read-quoted-string stream)
       (trim-whitespace
