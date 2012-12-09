@@ -265,7 +265,7 @@ value are optional.  If COOKIE-SYNTAX is true, uses READ-COOKIE-VALUE
 internally."
   (skip-whitespace stream)
   (let ((name (if cookie-syntax
-                (read-cookie-value stream :separators "=")
+                (read-cookie-value stream :separators "=;")
                 (read-token stream))))
     (skip-whitespace stream)
     (cons name
