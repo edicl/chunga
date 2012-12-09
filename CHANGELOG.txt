@@ -1,3 +1,7 @@
+Version 1.1.2
+2012-12-09
+Fix bug in READ-NAME-VALUE-PAIR for cookie reading in Drakma
+
 Version 1.1.1
 2010-05-19
 Read quoted cookie values (Red Daly)
@@ -21,7 +25,7 @@ Cleanup, reduce some consing
 
 Version 0.4.2
 2008-05-07
-Flush stream when switching chunking off (patch by Hans Hübner)
+Flush stream when switching chunking off (patch by Hans HÃ¼bner)
 
 Version 0.4.1
 2007-10-11
@@ -46,11 +50,11 @@ Robustified READ-COOKIE-VALUE
 
 Version 0.2.3
 2007-01-17
-Guard against stray semicolons when reading name/value pairs (thanks to Bülent Murtezaoglu)
+Guard against stray semicolons when reading name/value pairs (thanks to B?lent Murtezaoglu)
 
 Version 0.2.2
 2007-01-10
-Faster vesion of READ-LINE* (provided by Gábor Melis)
+Faster vesion of READ-LINE* (provided by Gabor Melis)
 
 Version 0.2.1
 2006-10-26
