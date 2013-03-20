@@ -78,7 +78,7 @@ according to RFC 2616."
   "Reads the next character from STREAM and checks if it is the
 character EXPECTED-CHAR.  Signals an error otherwise."
   (let ((char (read-char* stream)))
-    (unless (and char (char= char expected-char))
+    (unless (char= char expected-char)
       (signal-unexpected-chars stream char expected-char))
     char))
 
@@ -100,7 +100,7 @@ Additionally logs this string to LOG-STREAM if it is not NIL."
   (let ((result
          (with-output-to-string (line)
            (loop for char-seen-p = nil then t
-                 for char = (read-char* stream)
+                 for char = (read-char* stream nil)
                  for is-cr-p = (and char (char= char #\Return))
                  until (or (null char)
                            is-cr-p
