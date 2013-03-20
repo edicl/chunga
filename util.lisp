@@ -58,7 +58,7 @@ case.  Destructively modifies STRING if DESTRUCTIVEP is true."
            string)
           :keyword))
 
-(defun read-char* (stream &optional eof-error-p eof-value)
+(defun read-char* (stream &optional (eof-error-p t) eof-value)
   "The streams we're dealing with are all binary with element type
 \(UNSIGNED-BYTE 8) and we're only interested in ISO-8859-1, so we use
 this to `simulate' READ-CHAR."
