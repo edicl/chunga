@@ -1,3 +1,7 @@
+Version 1.1.5
+2013-03-21
+Fixes to changed default for eof-error-p suggested by Edi Weitz
+
 Version 1.1.4
 2013-03-20
 Trivial documentation fix
