@@ -31,7 +31,7 @@
 
 (defun signal-unexpected-chars (stream last-char expected-chars)
   "Signals an error that LAST-CHAR was read although one of
-EXPECTED-CHARS was expected.  \(Note that EXPECTED-CHARS, despites its
+EXPECTED-CHARS was expected.  \(Note that EXPECTED-CHARS, despite its
 name, can also be a single character instead of a list).  Calls
 *CURRENT-ERROR-FUNCTION* if it's not NIL, or uses
 *CURRENT-ERROR-MESSAGE* otherwise."
