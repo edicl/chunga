@@ -127,7 +127,6 @@ end.  Might return STRING."
   ;; optimized version to replace STRING-TRIM, suggested by Jason Kantz
   (declare (optimize
             speed
-            (safety 0)
             (space 0)
             (debug 1)
             (compilation-speed 0)
