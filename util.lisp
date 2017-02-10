@@ -43,20 +43,21 @@ SUFFIX.  Individual elements are compared with TEST."
     (or (null mismatch)
         (= mismatch (- (length seq) (length suffix))))))
 
-(defun make-keyword (string destructivep)
-  "Converts the string STRING to a keyword where all characters are
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defun make-keyword (string destructivep)
+    "Converts the string STRING to a keyword where all characters are
 uppercase or lowercase, taking into account the current readtable
 case.  Destructively modifies STRING if DESTRUCTIVEP is true."
-  (intern (funcall
-           (if destructivep
-             (if (eq (readtable-case *readtable*) :upcase)
-               #'nstring-upcase
-               #'nstring-downcase)
-             (if (eq (readtable-case *readtable*) :upcase)
-               #'string-upcase
-               #'string-downcase))
-           string)
-          :keyword))
+    (intern (funcall
+	     (if destructivep
+		 (if (eq (readtable-case *readtable*) :upcase)
+		     #'nstring-upcase
+		     #'nstring-downcase)
+		 (if (eq (readtable-case *readtable*) :upcase)
+		     #'string-upcase
+		     #'string-downcase))
+	     string)
+	    :keyword)))
 
 (defun read-char* (stream &optional (eof-error-p t) eof-value)
   "The streams we're dealing with are all binary with element type
