@@ -33,6 +33,7 @@
   (:use :cl :trivial-gray-streams)
   #+:lispworks
   (:import-from :lw :when-let)
+  (:shadow :open-stream-p :close)
   (:export :*accept-bogus-eols*
            :*current-error-message*
            :*treat-semicolon-as-continuation*
