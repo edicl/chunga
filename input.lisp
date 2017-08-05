@@ -42,6 +42,7 @@
 CHUNKED-INPUT-STREAM."
   nil)
 
+(defgeneric (setf chunked-stream-input-chunking-p) (new-value stream))
 (defmethod (setf chunked-stream-input-chunking-p) (new-value (stream chunked-input-stream))
   "Switches input chunking for STREAM on or off."
   (unless (eq (not new-value) (not (chunked-stream-input-chunking-p stream)))
@@ -69,6 +70,7 @@ CHUNKED-INPUT-STREAM."
   (clear-input (chunked-stream-stream stream))
   nil)
 
+(defgeneric chunked-input-available-p (stream))
 (defmethod chunked-input-available-p ((stream chunked-input-stream))
   "Whether there's unread input waiting in the chunk buffer."
   (< (chunked-stream-input-index stream)
@@ -82,6 +84,7 @@ something in the buffer.  Otherwise we poll the underlying stream."
              (fill-buffer stream)))
         (t (listen (chunked-stream-stream stream)))))
 
+(defgeneric fill-buffer (stream))
 (defmethod fill-buffer ((stream chunked-input-stream))
   "Re-fills the chunk buffer.  Returns NIL if chunking has ended."
   (let ((inner-stream (chunked-stream-stream stream))

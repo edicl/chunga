@@ -126,7 +126,7 @@ where spaces and tab characters are trimmed from the start and the
 end.  Might return STRING."
   ;; optimized version to replace STRING-TRIM, suggested by Jason Kantz
   (declare (optimize
-            speed
+	    #-:sbcl speed
             (space 0)
             (debug 1)
             (compilation-speed 0)

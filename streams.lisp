@@ -98,10 +98,12 @@ a CHUNKED-INPUT-STREAM as well as a CHUNKED-OUTPUT-STREAM."))
 flexi streams if you need a character stream."
   '(unsigned-byte 8))
 
+(defgeneric open-stream-p (stream))
 (defmethod open-stream-p ((stream chunked-stream))
   "A chunked stream is open if its underlying stream is open."
   (open-stream-p (chunked-stream-stream stream)))
 
+(defgeneric close (stream &key abort))
 (defmethod close ((stream chunked-stream) &key abort)
   "If a chunked stream is closed, we close the underlying stream as well."
   (with-slots (real-stream)
@@ -129,3 +131,4 @@ binary stream."
                        ((output-stream-p stream)
                         'chunked-output-stream))
                  :real-stream stream))
+

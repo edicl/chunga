@@ -34,6 +34,7 @@
 CHUNKED-OUTPUT-STREAM."
   nil)
 
+(defgeneric write-chunk (stream sequence &key start end))
 (defmethod write-chunk ((stream chunked-output-stream) sequence
                         &key (start 0)
                              (end (length sequence)))
@@ -48,6 +49,7 @@ underlying stream of STREAM as one chunk."
     (write-sequence sequence output-stream :start start :end end)
     (write-sequence +crlf+ output-stream)))
 
+(defgeneric flush-buffer (stream))
 (defmethod flush-buffer ((stream chunked-output-stream))
   "Uses WRITE-CHUNK to empty the output buffer unless it is
 already empty."
@@ -57,6 +59,7 @@ already empty."
       (write-chunk stream output-buffer :end output-index)
       (setq output-index 0))))
 
+(defgeneric (setf chunked-stream-output-chunking-p) (new-value streams))
 (defmethod (setf chunked-stream-output-chunking-p) (new-value (stream chunked-output-stream))
   "Switches output chunking for STREAM on or off."
   (unless (eq (not new-value) (not (chunked-stream-output-chunking-p stream)))
