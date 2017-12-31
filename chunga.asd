@@ -29,7 +29,7 @@
 
 (asdf:defsystem :chunga
   :serial t
-  :version "1.1.6"
+  :version "1.1.7"
   :depends-on (:trivial-gray-streams)
   :components ((:file "packages")
                (:file "specials")
