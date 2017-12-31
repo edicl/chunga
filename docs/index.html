@@ -1,5 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<html> 
+<html>
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -9,16 +9,16 @@
   h3, h4 { text-decoration: underline; }
   a { text-decoration: none; padding: 1px 2px 1px 2px; }
   a:visited { text-decoration: none; padding: 1px 2px 1px 2px; }
-  a:hover { text-decoration: none; padding: 1px 1px 1px 1px; border: 1px solid #000000; } 
+  a:hover { text-decoration: none; padding: 1px 1px 1px 1px; border: 1px solid #000000; }
   a:focus { text-decoration: none; padding: 1px 2px 1px 2px; border: none; }
   a.none { text-decoration: none; padding: 0; }
-  a.none:visited { text-decoration: none; padding: 0; } 
-  a.none:hover { text-decoration: none; border: none; padding: 0; } 
-  a.none:focus { text-decoration: none; border: none; padding: 0; } 
-  a.noborder { text-decoration: none; padding: 0; } 
-  a.noborder:visited { text-decoration: none; padding: 0; } 
-  a.noborder:hover { text-decoration: none; border: none; padding: 0; } 
-  a.noborder:focus { text-decoration: none; border: none; padding: 0; }  
+  a.none:visited { text-decoration: none; padding: 0; }
+  a.none:hover { text-decoration: none; border: none; padding: 0; }
+  a.none:focus { text-decoration: none; border: none; padding: 0; }
+  a.noborder { text-decoration: none; padding: 0; }
+  a.noborder:visited { text-decoration: none; padding: 0; }
+  a.noborder:hover { text-decoration: none; border: none; padding: 0; }
+  a.noborder:focus { text-decoration: none; border: none; padding: 0; }
   </style>
 </head>
 
@@ -30,7 +30,7 @@
 <br>&nbsp;<br><h3><a name=abstract class=none>Abstract</a></h3> Chunga
 implements streams capable of chunked encoding on demand as defined in
 RFC 2616.  For an example of how these streams can be used
-see <a href="http://weitz.de/drakma/">Drakma</a>.
+see <a href="https://edicl.github.io/drakma/">Drakma</a>.
 <p>
 The library needs a Common Lisp implementation that
 supports <a
@@ -108,11 +108,8 @@ license</a> so you can basically do with it whatever you want.
 <br>&nbsp;<br><h3><a class=none name="download">Download and installation</a></h3>
 
 Chunga together with this documentation can be downloaded
-from <a href="http://weitz.de/files/chunga.tar.gz">http://weitz.de/files/chunga.tar.gz</a>. The
-current version is 1.1.5.  (This version is <b>not</b> compatible with
-pre-2009 releases
-of <a href="http://weitz.de/hunchentoot/">Hunchentoot</a>
-or <a href="http://weitz.de/drakma/">Drakma</a>.)  Chunga will only
+from <a href="https://github.com/edicl/chunga/releases/latest">Github</a>. The
+current version is 1.1.6. Chunga will only
 work with Lisps where
 the <a href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_c.htm#character_code">character
 codes</a> of
@@ -121,30 +118,10 @@ characters coincide with their
 Unicode <a href="http://en.wikipedia.org/wiki/Code_point">code
 points</a> (which is the case for all current implementations I know).
 <p>
-Chunga depends on
-the <a href="http://www.cliki.net/trivial-gray-streams">trivial-gray-streams</a>
-library.  You can download and install Chunga and its dependencies
-automatically
-with <a href="http://www.cliki.net/ASDF-Install">ASDF-Install</a>, and
-there's a port
-for <a href="http://www.gentoo.org/proj/en/common-lisp/index.xml">Gentoo
-Linux</a> thanks to Matthew Kennedy.
+The esieast way to install Chunga is with <a href="https://www.quicklisp.org/">Quicklisp</a>
 <p>
 The current development version of Chunga can be found
 at <a href="https://github.com/edicl/chunga">https://github.com/edicl/chunga</a>.
-This is the one to send <a href="#mail">patches</a> against.  Use at
-your own risk.
-<p>
-An unofficial <a href="http://www.selenic.com/mercurial/wiki/">Mercurial</a>
-repository of older versions is available
-at <a
-href="http://arcanes.fr.eu.org/~pierre/2007/02/weitz/">http://arcanes.fr.eu.org/~pierre/2007/02/weitz/</a>
-thanks to Pierre Thierry.
-<p>
-Lu&iacute;s Oliveira maintains an unofficial <a href="http://darcs.net/">darcs</a>
-repository of Chunga
-at <a
-href="http://common-lisp.net/~loliveira/ediware/">http://common-lisp.net/~loliveira/ediware/</a>.
 
 <br>&nbsp;<br><h3><a name="support" class=none>Support</a></h3>
 
@@ -153,9 +130,7 @@ found <a href="https://github.com/edicl/chunga" target="_new">on
 github</a>.  Please use the github issue tracking system to submit bug
 reports.  Patches are welcome, please
 use <a href="https://github.com/edicl/chunga/pulls">GitHub pull
-requests</a>.  If you want to make a change,
-please <a href="http://weitz.de/patches.html" target="_new">read this
-first</a>.
+requests</a>.
 
 <br>&nbsp;<br><h3><a class=none name="dictionary">The Chunga dictionary</a></h3>
 
@@ -171,13 +146,13 @@ stream</a>, you can
 apply <a
 href="http://www.lispworks.com/documentation/HyperSpec/Body/f_rd_seq.htm"><code>READ-SEQUENCE</code></a>
 to it where the sequence is an array of element
-type <a href="http://weitz.de/flexi-streams/#octet"><code>OCTET</code></a>, and similarly for <a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_wr_seq.htm"><code>WRITE-SEQUENCE</code></a> and <a href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_o.htm#output">output streams</a>.  (Note that this specifically holds for <a href="http://www.lispworks.com/documentation/lw50/LWRM/html/lwref-91.htm"><em>bivalent</em> streams</a> like socket streams.)
+type <a href="http://edicl.github.io/flexi-streams/#octet"><code>OCTET</code></a>, and similarly for <a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_wr_seq.htm"><code>WRITE-SEQUENCE</code></a> and <a href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_o.htm#output">output streams</a>.  (Note that this specifically holds for <a href="http://www.lispworks.com/documentation/lw50/LWRM/html/lwref-91.htm"><em>bivalent</em> streams</a> like socket streams.)
 <p>
 A chunked stream behaves like an ordinary Lisp stream
 of <a
 href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_e.htm#element_type">element
 type</a> <a
-href="http://weitz.de/flexi-streams/#octet"><code>OCTET</code></a>
+href="http://edicl.github.io/flexi-streams/#octet"><code>OCTET</code></a>
 with the addition that you can turn <em>chunking</em> on and off for
 input as well as for output.  With chunking turned on, data is read or
 written according to
@@ -457,7 +432,7 @@ with <a href="#chunked-input-stream-extensions">extensions</a>
 and <a href="#chunked-input-stream-trailers">trailers</a>.  As these
 functions are in there anyway, they're exported, so they can be used
 by other code like for
-example <a href="http://weitz.de/drakma/">Drakma</a>.
+example <a href="https://edicl.github.io/drakma/">Drakma</a>.
 <p>
 Note that all of these functions are designed to work
 on <a href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_b.htm#binary">binary</a>
@@ -477,8 +452,8 @@ functions within this section can read characters from binary streams
 points).  All the functions below <em>must</em> be wrapped with this
 macro.  If your code uses several of these functions which interact on
 the same stream, all of them must be wrapped with the same macro.  See
-the source code of <a href="http://weitz.de/drakma/">Drakma</a>
-or <a href="http://weitz.de/hunchentoot/">Hunchentoot</a> for examples
+the source code of <a href="https://edicl.github.io/drakma/">Drakma</a>
+or <a href="https://edicl.github.io/hunchnetoot/">Hunchentoot</a> for examples
 of how to use this macro.
 
 </blockquote>
@@ -517,7 +492,7 @@ of names and values where the names are keywords and the values are
 strings.  Multiple lines with the same name are combined into one
 value, the individual values separated by commas.  Header lines which
 are spread across multiple lines are recognized and treated correctly.  (But see <a href="#*treat-semicolon-as-continuation*"><code>*TREAT-SEMICOLON-AS-CONTINUATION*</code></a>.)
-Additonally logs the header lines to 
+Additonally logs the header lines to
 <code><i>log-stream</i></code> if it is not <code>NIL</code>.
 <p>
 See <a href="#with-character-stream-semantics"><code>WITH-CHARACTER-STREAM-SEMANTICS</code></a>.
@@ -553,7 +528,7 @@ See <a href="#with-character-stream-semantics"><code>WITH-CHARACTER-STREAM-SEMAN
 <blockquote><br>
 
 Returns a true value if the Lisp character <code><i>char</i></code> is a token constituent
-according to 
+according to
 <a href="http://www.rfc.net/rfc2616.html">RFC 2616</a>.
 
 </blockquote>
@@ -578,7 +553,7 @@ If <code><i>value-required-p</i></code> is <code>NIL</code> (the
 default is <code>T</code>), the <code>#\=</code> sign and the value
 are optional.  If <code><i>cookie-syntax</i></code> is true (the
 default is <code>NIL</code>), the value is read like the value of
-a <a href="http://weitz.de/drakma/#cookies">cookie</a> header.
+a <a href="https://edicl.github.io/drakma/#cookies">cookie</a> header.
 <p>
 See <a href="#with-character-stream-semantics"><code>WITH-CHARACTER-STREAM-SEMANTICS</code></a>.
 
@@ -754,11 +729,8 @@ as <a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_stg_up.htm">
 
 <p>
 Thanks to Jochen Schmidt's chunking code in <a href="http://www.cliki.net/ACL-COMPAT">ACL-COMPAT</a> for inspiration.
-This documentation was prepared with <a href="http://weitz.de/documentation-template/">DOCUMENTATION-TEMPLATE</a>.
+This documentation was prepared with <a href="https://edicl.github.io/documentation-template/">DOCUMENTATION-TEMPLATE</a>.
 </p>
-<p>
-$Header: /usr/local/cvsrep/chunga/doc/index.html,v 1.33 2008/05/29 22:22:59 edi Exp $
-<p><a href="http://weitz.de/index.html">BACK TO MY HOMEPAGE</a>
 
 </body>
 </html>
