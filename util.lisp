@@ -58,6 +58,19 @@ case.  Destructively modifies STRING if DESTRUCTIVEP is true."
            string)
           :keyword))
 
+;;; Genera uses a non-standard character set where the control characters
+;;; have codepoints above 127.  Add the appropriate translations in READ-CHAR*
+#+:genera
+(defconstant +external-to-internal-codepoints+
+  (let ((table (make-hash-table)))
+    (setf (gethash #o010 table) #.(char-code #\Backspace))
+    (setf (gethash #o011 table) #.(char-code #\Tab))
+    (setf (gethash #o012 table) #.(char-code #\Linefeed))
+    (setf (gethash #o014 table) #.(char-code #\Page))
+    (setf (gethash #o015 table) #.(char-code #\Return))
+    (setf (gethash #o177 table) #.(char-code #\Rubout))
+    table))
+
 (defun read-char* (stream &optional (eof-error-p t) eof-value)
   "The streams we're dealing with are all binary with element type
 \(UNSIGNED-BYTE 8) and we're only interested in ISO-8859-1, so we use
