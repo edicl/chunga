@@ -35,7 +35,7 @@
   `(defconstant ,name (if (boundp ',name) (symbol-value ',name) ,value)
      ,@(when doc (list doc))))
 
-#+:lispworks
+#+(and :lispworks :lw-editor)
 (editor:setup-indent "define-constant" 1 2 4)
 
 (defconstant +output-buffer-size+ 8192
