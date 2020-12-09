@@ -142,10 +142,15 @@ extensions) and returns the size."
                 ((> chunk-size (length input-buffer))
                  ;; replace buffer if it isn't big enough for the next chunk
                  (setq input-buffer (make-array chunk-size :element-type '(unsigned-byte 8)))))
-          (unless (= (read-sequence input-buffer inner-stream :start 0 :end chunk-size)
-                     chunk-size)
-            (error 'input-chunking-unexpected-end-of-file
-                   :stream stream))
+          (loop with start = 0
+                with end = chunk-size
+                for read = (read-sequence input-buffer inner-stream :start start :end end)
+                while (< read end)
+                do
+                (when (= read start)
+                  (error 'input-chunking-unexpected-end-of-file
+                         :stream stream))
+                (setf start read))
           chunk-size)))))
 
 (defmethod stream-read-byte ((stream chunked-input-stream))
