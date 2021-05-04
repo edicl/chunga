@@ -100,8 +100,11 @@ Additionally logs this string to LOG-STREAM if it is not NIL."
   (let ((result
          (with-output-to-string (line)
            (loop for char-seen-p = nil then t
+                 for count from 0
                  for char = (read-char* stream nil)
                  for is-cr-p = (and char (char= char #\Return))
+                 when (and *max-line-length* (> count *max-line-length*))
+                   do (error 'input-exceeded-limit :maximum *max-line-length*)
                  until (or (null char)
                            is-cr-p
                            (and *accept-bogus-eols*
@@ -155,7 +158,8 @@ separated by commas.  Header lines which are spread across
 multiple lines are recognized and treated correctly.  Additonally
 logs the header lines to LOG-STREAM if it is not NIL."
   (let (headers
-        (*current-error-message* "While reading HTTP headers:"))
+        (*current-error-message* "While reading HTTP headers:")
+        (*max-line-length* (or *max-header-line-length* *max-line-length*)))
     (labels ((read-header-line ()
                "Reads one header line, considering continuations."
                (with-output-to-string (header-line)
