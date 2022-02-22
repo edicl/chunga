@@ -30,6 +30,7 @@
 (asdf:defsystem :chunga
   :serial t
   :version "1.1.7"
+  :license "BSD"
   :depends-on (:trivial-gray-streams)
   :components ((:file "packages")
                (:file "specials")
