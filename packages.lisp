@@ -64,5 +64,6 @@
            :syntax-error
            :token-char-p
            :trim-whitespace
-           :with-character-stream-semantics))
+           :with-character-stream-semantics
+           :chunked-input-stream-eof-after-last-chunk))
            

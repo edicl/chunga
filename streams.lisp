@@ -67,7 +67,11 @@ might be encountered at the end of a chunked stream.")
                      :documentation "Whether we expect to see
 CRLF before we can read the next chunk-size header part from the
 stream.  \(This will actually be the CRLF from the end of the
-last chunk-data part.)"))
+last chunk-data part.)")
+   (signal-eof :initform nil
+               :accessor chunked-input-stream-eof-after-last-chunk
+               :documentation "Return EOF after the last chunk instead
+of simply switching chunking off."))
   (:documentation "A chunked stream is of this type if its
 underlying stream is an input stream. This is a subtype of
 CHUNKED-STREAM."))

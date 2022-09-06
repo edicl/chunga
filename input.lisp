@@ -80,6 +80,8 @@ something in the buffer.  Otherwise we poll the underlying stream."
   (cond ((chunked-stream-input-chunking-p stream)
          (or (chunked-input-available-p stream)
              (fill-buffer stream)))
+        ((eq (chunked-input-stream-eof-after-last-chunk stream) :eof)
+         nil)
         (t (listen (chunked-stream-stream stream)))))
 
 (defmethod fill-buffer ((stream chunked-input-stream))
@@ -137,6 +139,8 @@ extensions) and returns the size."
                        (slot-value stream 'chunk-trailers) (with-character-stream-semantics
                                                              (read-http-headers inner-stream))
                        input-limit 0)
+                 (when (chunked-input-stream-eof-after-last-chunk stream)
+                   (setf (chunked-input-stream-eof-after-last-chunk stream) :eof))
                  ;; return NIL
                  (return-from fill-buffer))
                 ((> chunk-size (length input-buffer))
@@ -152,7 +156,10 @@ extensions) and returns the size."
   "Reads one byte from STREAM.  Checks the chunk buffer first, if
 input chunking is enabled.  Re-fills buffer is necessary."
   (unless (chunked-stream-input-chunking-p stream)
-    (return-from stream-read-byte (read-byte (chunked-stream-stream stream) nil :eof)))
+    (return-from stream-read-byte
+      (if (eq (chunked-input-stream-eof-after-last-chunk stream) :eof)
+          :eof
+          (read-byte (chunked-stream-stream stream) nil :eof))))
   (unless (chunked-input-available-p stream)
     (unless (fill-buffer stream)
       (return-from stream-read-byte :eof)))
@@ -167,7 +174,9 @@ it until enough data was read.  Works directly on the underlying
 stream if input chunking is off."
   (unless (chunked-stream-input-chunking-p stream)
     (return-from stream-read-sequence
-      (read-sequence sequence (chunked-stream-stream stream) :start start :end end)))
+      (if (eq (chunked-input-stream-eof-after-last-chunk stream) :eof)
+          0
+          (read-sequence sequence (chunked-stream-stream stream) :start start :end end))))
   (loop
    (when (>= start end)
      (return-from stream-read-sequence start))   
