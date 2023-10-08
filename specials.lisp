@@ -78,6 +78,13 @@ variable has a true value, though.")
   "A `buffer' for one character.  Used by PEEK-CHAR* and
 UNREAD-CHAR*.")
 
+(defvar *max-line-length* nil
+  "Maximum length of a line.  If NIL, lines may be any length.")
+
+(defvar *max-header-line-length* nil
+  "Maximum length of HTTP header lines.  If NIL, defaults to
+*MAX-LINE-LENGTH*.")
+
 (pushnew :chunga *features*)
 
 ;; stuff for Nikodemus Siivola's HYPERDOC

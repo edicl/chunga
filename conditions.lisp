@@ -82,3 +82,13 @@ Read character ~S, but expected ~:[a member of ~S~;~S~]."
   (:documentation "A condition of this type is signaled if an
 unexpected character \(octet) is read while reading from a chunked
 stream with input chunking enabled."))
+
+(define-condition input-exceeded-limit (chunga-error)
+  ((maximum :initarg :maximum
+	    :documentation "The limit which was exceeded."))
+  (:report (lambda (condition stream)
+	     (with-slots (maximum)
+		 condition
+	       (format stream "Input exceeded ~d characters." maximum))))
+  (:documentation "A condition of this type is signaled if an
+maximum-character limit is exceeded."))
