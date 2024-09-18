@@ -1,3 +1,7 @@
+Version 1.1.9
+2024-09-18
+Don't intern headers for which no keyword exists. (@daninus)
+
 Version 1.1.8
 2023-09-30
 Add chunked-input-stream-eof-after-last-chunk.
@@ -5,6 +9,7 @@ Add chunked-input-stream-eof-after-last-chunk.
 Version 1.1.7
 2017-12-31
 Removed (safety 0)
+
 Version 1.1.6
 2014-11-28
 add CHANGELOG (Hans Huebner)
