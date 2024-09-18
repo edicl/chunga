@@ -160,16 +160,16 @@ logs the header lines to LOG-STREAM if it is not NIL."
                "Reads one header line, considering continuations."
                (with-output-to-string (header-line)
                  (loop
-                  (let ((line (trim-whitespace (read-line* stream log-stream))))
-                    (when (zerop (length line))
-                      (return))
-                    (write-sequence line header-line)
-                    (let ((next (peek-char* stream)))
-                      (unless (whitespacep next)
-                        (return)))
-                    ;; we've seen whitespace starting a continutation,
-                    ;; so we loop
-                    (write-char #\Space header-line)))))
+                   (let ((line (trim-whitespace (read-line* stream log-stream))))
+                     (when (zerop (length line))
+                       (return))
+                     (write-sequence line header-line)
+                     (let ((next (peek-char* stream)))
+                       (unless (whitespacep next)
+                         (return)))
+                     ;; we've seen whitespace starting a continutation,
+                     ;; so we loop
+                     (write-char #\Space header-line)))))
              (split-header (line)
                "Splits line at colon and converts it into a cons.
 Returns NIL if LINE consists solely of whitespace."
@@ -179,7 +179,7 @@ Returns NIL if LINE consists solely of whitespace."
                                              :stream stream
                                              :format-control "Couldn't find colon in header line ~S."
                                              :format-arguments (list line)))))
-                   (cons (as-keyword (subseq line 0 colon-pos))
+                   (cons (as-keyword-if-found (subseq line 0 colon-pos))
                          (trim-whitespace (subseq line (1+ colon-pos)))))))
              (add-header (pair)
                "Adds the name/value cons PAIR to HEADERS.  Takes
