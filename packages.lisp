@@ -37,6 +37,7 @@
            :*current-error-message*
            :*treat-semicolon-as-continuation*
            :assert-char
+           :as-keyword-if-found
            :as-keyword
            :as-capitalized-string
            :chunga-error

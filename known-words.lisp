@@ -135,6 +135,11 @@ but includes WebDAV stuff and other things as well."))
   "A hash table which maps keywords derived from +KNOWN-WORDS+ to
 capitalized strings.")
 
+(defun as-keyword-if-found (string &key (destructivep t))
+  "Checks if the string STRING is found as a keyword and if it is, returns the keyword, otherwise it returns the input string."
+  (or (find-symbol (string-upcase string) (find-package "KEYWORD"))
+      string))
+
 (defun as-keyword (string &key (destructivep t))
   "Converts the string STRING to a keyword where all characters are
 uppercase or lowercase, taking into account the current readtable
