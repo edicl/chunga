@@ -136,9 +136,14 @@ but includes WebDAV stuff and other things as well."))
 capitalized strings.")
 
 (defun as-keyword-if-found (string &key (destructivep t))
-  "Checks if the string STRING is found as a keyword and if it is, returns the keyword, otherwise it returns the input string."
-  (or (find-symbol (string-upcase string) (find-package "KEYWORD"))
-      string))
+  "Checks if the string STRING is found as a keyword where all character cases
+are according to the current readtable case; might destructively modify STRING
+if DESTRUCTIVEP is true, which is the default. If there is no interned keyword
+then the case-normalised string is returned."
+  (let ((name (case-normalize-string string destructivep)))
+    (or (gethash string +string-to-keyword-hash+)
+        (find-symbol name (find-package "KEYWORD"))
+        name)))
 
 (defun as-keyword (string &key (destructivep t))
   "Converts the string STRING to a keyword where all characters are
