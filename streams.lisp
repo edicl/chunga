@@ -71,7 +71,10 @@ last chunk-data part.)")
    (signal-eof :initform nil
                :accessor chunked-input-stream-eof-after-last-chunk
                :documentation "Return EOF after the last chunk instead
-of simply switching chunking off."))
+of simply switching chunking off.")
+   (length :initform nil
+           :accessor chunked-input-stream-length
+           :documentation "Signal EOF after reading the specified amount of bytes."))
   (:documentation "A chunked stream is of this type if its
 underlying stream is an input stream. This is a subtype of
 CHUNKED-STREAM."))

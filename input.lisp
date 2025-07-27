@@ -152,6 +152,12 @@ extensions) and returns the size."
                    :stream stream))
           chunk-size)))))
 
+(defun update-length (stream bytes-read)
+  (when (chunked-input-stream-length stream)
+    (when (<= (decf (chunked-input-stream-length stream) bytes-read) 0)
+      (setf (chunked-input-stream-eof-after-last-chunk stream) :eof)))
+  bytes-read)
+
 (defmethod stream-read-byte ((stream chunked-input-stream))
   "Reads one byte from STREAM.  Checks the chunk buffer first, if
 input chunking is enabled.  Re-fills buffer is necessary."
@@ -159,7 +165,9 @@ input chunking is enabled.  Re-fills buffer is necessary."
     (return-from stream-read-byte
       (if (eq (chunked-input-stream-eof-after-last-chunk stream) :eof)
           :eof
-          (read-byte (chunked-stream-stream stream) nil :eof))))
+          (prog1
+              (read-byte (chunked-stream-stream stream) nil :eof)
+            (update-length stream 1)))))
   (unless (chunked-input-available-p stream)
     (unless (fill-buffer stream)
       (return-from stream-read-byte :eof)))
@@ -176,7 +184,8 @@ stream if input chunking is off."
     (return-from stream-read-sequence
       (if (eq (chunked-input-stream-eof-after-last-chunk stream) :eof)
           0
-          (read-sequence sequence (chunked-stream-stream stream) :start start :end end))))
+          (update-length stream
+                         (read-sequence sequence (chunked-stream-stream stream) :start start :end end)))))
   (loop
    (when (>= start end)
      (return-from stream-read-sequence start))   
