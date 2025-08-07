@@ -152,8 +152,10 @@ corresponding alist of names and values where the names are
 keywords and the values are strings.  Multiple lines with the
 same name are combined into one value, the individual values
 separated by commas.  Header lines which are spread across
-multiple lines are recognized and treated correctly.  Additonally
-logs the header lines to LOG-STREAM if it is not NIL."
+multiple lines are recognized and treated correctly. Unknown
+headers without a corresponding symbol in KEYWORD package are
+ignored. Additonally logs the header lines to LOG-STREAM if it
+is not NIL."
   (let (headers
         (*current-error-message* "While reading HTTP headers:"))
     (labels ((read-header-line ()
@@ -174,13 +176,21 @@ logs the header lines to LOG-STREAM if it is not NIL."
                "Splits line at colon and converts it into a cons.
 Returns NIL if LINE consists solely of whitespace."
                (unless (zerop (length (trim-whitespace line)))
-                 (let ((colon-pos (or (position #\: line :test #'char=)
-                                      (error 'syntax-error
-                                             :stream stream
-                                             :format-control "Couldn't find colon in header line ~S."
-                                             :format-arguments (list line)))))
-                   (cons (as-keyword-if-found (subseq line 0 colon-pos))
-                         (trim-whitespace (subseq line (1+ colon-pos)))))))
+                 (let* ((colon-pos (or (position #\: line :test #'char=)
+                                       (error 'syntax-error
+                                              :stream stream
+                                              :format-control "Couldn't find colon in header line ~S."
+                                              :format-arguments (list line))))
+                        (maybe-keyword (as-keyword-if-found (subseq line 0 colon-pos))))
+                   (if (not (keywordp maybe-keyword))
+                       (unless *signaled-unknown-header-p*
+                         (warn 'chunga-warning
+                               :stream stream
+                               :format-control "Some headers were ignored in stream ~S: ~S."
+                               :format-arguments (list stream maybe-keyword))
+                         (setf *signaled-unknown-header-p* t))
+                       (cons maybe-keyword
+                             (trim-whitespace (subseq line (1+ colon-pos))))))))
              (add-header (pair)
                "Adds the name/value cons PAIR to HEADERS.  Takes
 care of multiple headers with the same name."
@@ -198,7 +208,8 @@ care of multiple headers with the same name."
                        (t (push pair headers))))))
       (loop for header-pair = (split-header (read-header-line))
             while header-pair
-            do (add-header header-pair)))
+            when (consp header-pair)
+              do (add-header header-pair)))
     (nreverse headers)))
 
 (defun skip-whitespace (stream)

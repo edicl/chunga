@@ -67,6 +67,12 @@ this variable is bound to a true value, READ-LINE* will treat a lone
 LF or CR character as an acceptable end of line.  The initial value is
 NIL.")
 
+(defvar *signaled-unknown-header-p* nil
+  "Interning strings coming from an external source is an attack vector. To prevent
+that, headers that are not known are ignored. A warning is issued when the first
+such header is encountered to inform the user that some headers may be missing -
+this flag stores the information that such warning has been issued already.")
+
 (defvar *treat-semicolon-as-continuation* nil
   "According to John Foderaro, Netscape v3 web servers bogusly split
 Set-Cookie headers over multiple lines which means that we'd have to
