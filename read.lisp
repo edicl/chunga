@@ -207,6 +207,56 @@ care of multiple headers with the same name."
               do (add-header header-pair)))
     (nreverse headers)))
 
+(defun read-raw-http-headers (stream &optional log-stream)
+  "Like READ-HTTP-HEADERS, but both elements of each collected pair
+are strings and all headers (including unknown ones) are collected."
+  (let (headers
+        (*current-error-message* "While reading HTTP headers:"))
+    (labels ((read-header-line ()
+               "Reads one header line, considering continuations."
+               (with-output-to-string (header-line)
+                 (loop
+                   (let ((line (trim-whitespace (read-line* stream log-stream))))
+                     (when (zerop (length line))
+                       (return))
+                     (write-sequence line header-line)
+                     (let ((next (peek-char* stream)))
+                       (unless (whitespacep next)
+                         (return)))
+                     ;; we've seen whitespace starting a continutation,
+                     ;; so we loop
+                     (write-char #\Space header-line)))))
+             (split-header (line)
+               "Splits line at colon and converts it into a cons.
+Returns NIL if LINE consists solely of whitespace."
+               (unless (zerop (length (trim-whitespace line)))
+                 (let ((colon-pos (or (position #\: line :test #'char=)
+                                      (error 'syntax-error
+                                             :stream stream
+                                             :format-control "Couldn't find colon in header line ~S."
+                                             :format-arguments (list line)))))
+                   (cons (subseq line 0 colon-pos)
+                         (trim-whitespace (subseq line (1+ colon-pos)))))))
+             (add-header (pair)
+               "Adds the name/value cons PAIR to HEADERS.  Takes
+care of multiple headers with the same name."
+               (let* ((name (car pair))
+                      (existing-header (assoc name headers :test #'string=))
+                      (existing-value (cdr existing-header)))
+                 (cond (existing-header
+                        (setf (cdr existing-header)
+                              (format nil "~A~:[,~;~]~A"
+                                      existing-value
+                                      (and *treat-semicolon-as-continuation*
+                                           (eq name :set-cookie)
+                                           (ends-with-p (trim-whitespace existing-value) ";"))
+                                      (cdr pair))))
+                       (t (push pair headers))))))
+      (loop for header-pair = (split-header (read-header-line))
+            while header-pair
+            do (add-header header-pair)))
+    (nreverse headers)))
+
 (defun skip-whitespace (stream)
   "Consume characters from STREAM until an END-OF-FILE is
 encountered or a non-whitespace \(according to RFC 2616)

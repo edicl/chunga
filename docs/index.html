@@ -86,6 +86,7 @@ license</a> so you can basically do with it whatever you want.
           <li><a href="#with-character-stream-semantics"><code>with-character-stream-semantics</code></a>
           <li><a href="#read-line*"><code>read-line*</code></a>
           <li><a href="#read-http-headers"><code>read-http-headers</code></a>
+          <li><a href="#read-raw-http-headers"><code>read-raw-http-headers</code></a>
           <li><a href="#token-char-p"><code>token-char-p</code></a>
           <li><a href="#read-token"><code>read-token</code></a>
           <li><a href="#read-name-value-pair"><code>read-name-value-pair</code></a>
@@ -492,6 +493,12 @@ of names and values where the names are keywords and the values are
 strings.  Multiple lines with the same name are combined into one
 value, the individual values separated by commas.  Header lines which
 are spread across multiple lines are recognized and treated correctly.  (But see <a href="#*treat-semicolon-as-continuation*"><code>*TREAT-SEMICOLON-AS-CONTINUATION*</code></a>.)
+
+Unknown headers without a corresponding symbol in <code>KEYWORD</code> package
+are ignored.  To include non-standard headers in the result intern the name
+in <code>KEYWORD</code> package. To read a full list of headers
+use <code>READ-RAW-HTTP-HEADERS</code>.
+
 Additonally logs the header lines to
 <code><i>log-stream</i></code> if it is not <code>NIL</code>.
 <p>
@@ -500,6 +507,18 @@ See <a href="#with-character-stream-semantics"><code>WITH-CHARACTER-STREAM-SEMAN
 </blockquote>
 
 <!-- End of entry for READ-HTTP-HEADERS -->
+
+<!-- Entry for READ--RAW-HTTP-HEADERS -->
+
+<p><br>[Function]<br><a class=none name='read-raw-http-headers'><b>read-raw-http-headers</b> <i>stream <tt>&amp;optional</tt> log-stream</i> =&gt; <i>headers</i></a>
+<blockquote><br>
+
+Like READ-HTTP-HEADERS, but both elements of each collected pair
+are strings and all headers (including unknown ones) are collected.
+
+</blockquote>
+
+<!-- End of entry for READ-RAW-HTTP-HEADERS -->
 
 <!-- Entry for READ-TOKEN -->
 
