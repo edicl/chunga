@@ -158,7 +158,7 @@ end.  Might return STRING."
                    (let ((next (peek-char* stream)))
                      (unless (whitespacep next)
                        (return)))
-                   ;; we've seen whitespace starting a continutation,
+                   ;; we've seen whitespace starting a continuation,
                    ;; so we loop
                    (write-char #\Space header-line)))))
            (split-header (line)
