@@ -183,9 +183,11 @@ stream if input chunking is off."
   (unless (chunked-stream-input-chunking-p stream)
     (return-from stream-read-sequence
       (if (eq (chunked-input-stream-eof-after-last-chunk stream) :eof)
-          0
-          (update-length stream
-                         (read-sequence sequence (chunked-stream-stream stream) :start start :end end)))))
+          start
+          (let ((pos (read-sequence sequence (chunked-stream-stream stream)
+                                    :start start :end end)))
+            (update-length stream (- pos start))
+            pos))))
   (loop
    (when (>= start end)
      (return-from stream-read-sequence start))   
